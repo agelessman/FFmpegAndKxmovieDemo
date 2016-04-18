@@ -36,6 +36,7 @@
 		9B5EAF2B1CBE34CB00A9386A /* FFVideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5EAF2A1CBE34CB00A9386A /* FFVideoItem.swift */; };
 		9B5EAF2D1CBE368A00A9386A /* FFBasicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5EAF2C1CBE368A00A9386A /* FFBasicRequest.swift */; };
 		9B5EAF301CBE4BE500A9386A /* FFHomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5EAF2F1CBE4BE500A9386A /* FFHomeCell.swift */; };
+		9BAA59031CC3D46C00084302 /* FFTextLinePositionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA59021CC3D46C00084302 /* FFTextLinePositionModifier.swift */; };
 		9BEC3AAC1CBCEBAC005B1575 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEC3AAB1CBCEBAC005B1575 /* OpenGLES.framework */; };
 		9BEC3AAE1CBCEBB5005B1575 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEC3AAD1CBCEBB5005B1575 /* QuartzCore.framework */; };
 		9BEC3AB01CBCEBBC005B1575 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEC3AAF1CBCEBBC005B1575 /* Accelerate.framework */; };
@@ -285,6 +286,7 @@
 		9B5EAF2A1CBE34CB00A9386A /* FFVideoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFVideoItem.swift; sourceTree = "<group>"; };
 		9B5EAF2C1CBE368A00A9386A /* FFBasicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFBasicRequest.swift; sourceTree = "<group>"; };
 		9B5EAF2F1CBE4BE500A9386A /* FFHomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFHomeCell.swift; sourceTree = "<group>"; };
+		9BAA59021CC3D46C00084302 /* FFTextLinePositionModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFTextLinePositionModifier.swift; sourceTree = "<group>"; };
 		9BEC3AAB1CBCEBAC005B1575 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		9BEC3AAD1CBCEBB5005B1575 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9BEC3AAF1CBCEBBC005B1575 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -1095,6 +1097,7 @@
 			isa = PBXGroup;
 			children = (
 				9BFF742A1CBF66F800A16B36 /* VideoLayoutHelper.swift */,
+				9BAA59021CC3D46C00084302 /* FFTextLinePositionModifier.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -1587,6 +1590,7 @@
 				9BFF74F21CBF98F700A16B36 /* YYSpriteSheetImage.m in Sources */,
 				9BFF753E1CBF9EEF00A16B36 /* NSParagraphStyle+YYText.m in Sources */,
 				9BFF74ED1CBF98F700A16B36 /* UIImageView+YYWebImage.m in Sources */,
+				9BAA59031CC3D46C00084302 /* FFTextLinePositionModifier.swift in Sources */,
 				9B5EAEE61CBDE68300A9386A /* BasicTableViewCell.swift in Sources */,
 				9B5EAF111CBE2D7600A9386A /* URLTransform.swift in Sources */,
 				9BFF74E41CBF98F700A16B36 /* YYCache.m in Sources */,
@@ -1769,6 +1773,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FFmpegAndKxmovieDemo",
+				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/FFmpegAndKxmovieDemo/FFmovie/include";
 				INFOPLIST_FILE = FFmpegAndKxmovieDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1791,6 +1799,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FFmpegAndKxmovieDemo",
+				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/FFmpegAndKxmovieDemo/FFmovie/include";
 				INFOPLIST_FILE = FFmpegAndKxmovieDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

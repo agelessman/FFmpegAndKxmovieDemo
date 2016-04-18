@@ -16,6 +16,7 @@ class FFHomeVideoStyleView: UIView {
 
     var contentView: UIView!
     var profileView: FFHomeProfileView!
+    var textLabel :YYLabel!               // 文本
     
     override init(frame: CGRect) {
         
@@ -26,6 +27,7 @@ class FFHomeVideoStyleView: UIView {
         
         self.setupContentView()
         self.setupProfileView()
+        self.setupTextLabel()
         
     }
     
@@ -79,6 +81,13 @@ class FFHomeVideoStyleView: UIView {
         
         self.profileView.moreView.right = self.profileView.width - kFFCellPadding
       
+        top += self.profileView.height
+        
+        self.textLabel.top        = top
+        self.textLabel.height     = layout.textHeight
+        self.textLabel.textLayout = layout.textLayout!
+        
+        top += layout.textHeight
     }
     
     
@@ -97,6 +106,19 @@ class FFHomeVideoStyleView: UIView {
         self.profileView = FFHomeProfileView()
         self.contentView.addSubview(self.profileView)
         self.profileView.width = kScreenWidth
+    }
+    
+    func setupTextLabel()  {
+        
+        textLabel                             = YYLabel()
+        textLabel.left                        = kFFCellPadding
+        textLabel.width                       = kFFCellContentWidth
+        textLabel.textVerticalAlignment       = YYTextVerticalAlignment.Top
+        textLabel.displaysAsynchronously      = true
+        textLabel.ignoreCommonProperties      = true
+        textLabel.fadeOnAsynchronouslyDisplay = false
+        textLabel.fadeOnHighlight             = false
+        self.contentView!.addSubview(textLabel)
     }
     
     func configureAvatarBadgeView() {

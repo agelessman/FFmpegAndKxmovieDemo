@@ -9,6 +9,8 @@
 import UIKit
 import Alamofire
 
+let videoCellId = "videoCellId"
+
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     
@@ -31,7 +33,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         fps.size = CGSizeMake(60, 30)
         fps.bottom = self.view.bottom
         self.view.addSubview(fps)
-
+  
     }
 
     func fetchDatas() {
@@ -69,19 +71,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return 80
+        let videoLayout = self.dataController.list[indexPath.row]
+        return videoLayout.height
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let item = self.dataController.list[indexPath.row]
-        var cell = tableView.dequeueReusableCellWithIdentifier(item.reuseIdentifier)
+
+        var cell = tableView.dequeueReusableCellWithIdentifier(videoCellId) as? FFHomeCell
         
         if cell == nil {
 
-            cell = (item.cellClass as! UITableViewCell.Type).init(style: UITableViewCellStyle.Default, reuseIdentifier: item.reuseIdentifier)
+            cell = FFHomeCell(style: UITableViewCellStyle.Default, reuseIdentifier: videoCellId)
         }
-        item.updateCell(cell!)
+        
+        cell!.updateWithViewModel(item)
         return cell!
     }
     
@@ -94,16 +99,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         var url :String?
         
-        if video.cellClass == FFHomeCell.self {
-            
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! FFHomeCell
-            
-            let viewModel = cell.viewModel!
-            
-            url = viewModel.videoItem.video?.video?.first
-            
-        }
 
+        url = video.videoItem.video?.video?.first
+            
 
         if url == nil {
             

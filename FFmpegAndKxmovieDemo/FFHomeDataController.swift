@@ -26,7 +26,7 @@ class HomeListResult: NSObject,Mappable {
 class FFHomeDataController: FFBasicDataController {
 
 
-    var list: Array<CellConfiguratorType> = Array()
+    var list: Array<VideoLayout> = Array()
     
     
     func fetchHomeListWithUrl(url: String , completionHandler: ((AnyObject? , String?) -> Void)?) {
@@ -44,9 +44,7 @@ class FFHomeDataController: FFBasicDataController {
                         
                         let model = VideoLayoutHelper().transformVideoItem(videoItem)
                        
-                        let con = CellConfigurator<FFHomeCell>(viewModel:model)
-                        
-                        self.list.append(con)
+                        self.list.append(model)
                         
                     }
 

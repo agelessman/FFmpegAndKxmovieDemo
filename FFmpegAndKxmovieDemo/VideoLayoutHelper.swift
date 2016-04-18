@@ -18,15 +18,53 @@ class VideoLayoutHelper: NSObject {
 
         self.layout.videoItem = video
         
-        self.layout.height = 80
+        self.layout.height = 0
         
         
         self._layoutProfile()
         
-      
+        self._layoutTextLabel()
+        
+        
+        
+        
+        self.layout.height += self.layout.topMargin
+        self.layout.height += self.layout.profileHeight
+        
+        self.layout.height += self.layout.textHeight
+        
+        
+        self.layout.height += self.layout.bottomMargin
+        print(self.layout.height)
         return self.layout
     }
     
+    //MARK: - 计算正文
+    func _layoutTextLabel() {
+        
+        if  let textStr = self.layout.videoItem.text {
+            
+            let text: NSMutableAttributedString = NSMutableAttributedString(string: textStr)
+            text.yy_font = UIFont.systemFontOfSize(kFFCellTextFontSize)
+            text.yy_color = kFFCellTextNormalColor
+            
+            let modifier = FFTextLinePositionModifier()
+            modifier.font = UIFont(name: "Heiti SC", size: kFFCellTextFontSize )
+            modifier.paddingTop = 0
+            modifier.paddingBottom = kFFCellPaddingText / 2
+            
+            let container = YYTextContainer()
+            container.size = CGSizeMake(kFFCellContentWidth, CGFloat(MAXFLOAT))
+            container.linePositionModifier = modifier
+            
+            self.layout .textLayout = YYTextLayout(container: container, text: text)
+            if self.layout .textLayout == nil { return }
+            
+            self.layout.textHeight = modifier.heightForLineCount((self.layout.textLayout?.lines.count)!)
+        }
+        
+        
+    }
     
     //MARK:计算头像，名字，时间
     func _layoutProfile()
@@ -76,7 +114,7 @@ class VideoLayoutHelper: NSObject {
         let sourceText = NSMutableAttributedString()
         
         let createTime = FFHelper.stringWithTimelineDate(self.layout.videoItem.passtime)
-    print(createTime)
+
         //时间
         if let _ = createTime {
             let timeText = NSMutableAttributedString(string: createTime!)
