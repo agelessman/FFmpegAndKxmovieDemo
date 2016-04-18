@@ -25,18 +25,124 @@ class VideoLayoutHelper: NSObject {
         
         self._layoutTextLabel()
         
+        self._layoutViewImageView()
         
-        
-        
+        self._layoutPlayCountAndDuration()
+
         self.layout.height += self.layout.topMargin
         self.layout.height += self.layout.profileHeight
         
         self.layout.height += self.layout.textHeight
         
+        self.layout.height += self.layout.videoImageViewHeight
         
         self.layout.height += self.layout.bottomMargin
-        print(self.layout.height)
+        
+        self.layout.height += self.layout.bottomMargin
+    
         return self.layout
+    }
+
+    //MARK: - 计算播放次数和时长的布局
+    func _layoutPlayCountAndDuration () {
+        
+        if let count = self.layout.videoItem.video?.playcount {
+            
+            let countText: NSMutableAttributedString = NSMutableAttributedString(string: "\(count)播放")
+            countText.yy_font = UIFont.systemFontOfSize(kFFCellPlayCountTextFontSize)
+            countText.yy_color = UIColor.whiteColor()
+            
+            let container = YYTextContainer()
+            container.size = CGSizeMake(kFFCellContentWidth, CGFloat(MAXFLOAT))
+            
+            self.layout .playCountTextLayout = YYTextLayout(container: container, text: countText)
+
+        }
+        
+        if let duration = self.layout.videoItem.video?.duration {
+            
+            let hour = duration / 60 / 60 % 60
+            
+            let secondStr = String(format: "%0.2i", duration % 60)
+            let minuteStr = String(format: "%0.2i", duration / 60 % 60)
+            let hourStr = String(format: "%0.2i", duration / 60 / 60 % 60)
+           
+            let time = hour > 0 ? hourStr + ":" + minuteStr + ":" + secondStr : minuteStr + ":" + secondStr
+            
+            let durationText: NSMutableAttributedString = NSMutableAttributedString(string: time)
+            durationText.yy_font = UIFont.systemFontOfSize(kFFCellPlayCountTextFontSize)
+            durationText.yy_color = UIColor.whiteColor()
+            
+            
+            let container = YYTextContainer()
+            container.size = CGSizeMake(kFFCellContentWidth, CGFloat(MAXFLOAT))
+            
+            self.layout .playDurationTextLayout = YYTextLayout(container: container, text: durationText)
+            
+        }
+        
+    }
+    
+    //MARK: - 计算播放大小
+    func _layoutViewImageView () {
+        
+        var tempHeight: CGFloat = 0
+        var tempWidth: CGFloat = 1
+        var videoW: CGFloat = 0
+        var videoH: CGFloat = 0
+        
+        if let h = self.layout.videoItem.video?.height {
+            
+            tempHeight = h
+        }
+        
+        if let w = self.layout.videoItem.video?.width {
+            
+            tempWidth = w
+        }
+        
+        // 视频宽度超过屏幕宽度 
+        if tempWidth >= kFFCellContentWidth {
+            
+            // 视频的宽度就是kFFCellContentWidth
+            videoW = kFFCellContentWidth
+   
+            videoH = tempHeight / tempWidth * kFFCellContentWidth // 按比例计算高度
+            
+             if videoH > kFFVideoMaxHeight {  // 超高了，重新计算宽度
+            
+                videoH = kFFVideoMaxHeight
+                videoW = videoH * tempWidth / tempHeight
+            }
+
+        }
+        else {  // 宽度未超过kFFCellContentWidth
+            
+            if tempHeight >= tempWidth {  // 高度大于 宽度， 优先考虑高度
+                
+                if tempHeight > kFFVideoMaxHeight { // 若大于最大允许的高度，取最大高度
+                    
+                    videoH = kFFVideoMaxHeight
+                }
+                else {
+                    
+                    videoH = tempHeight
+                }
+                
+                videoW = videoH * tempWidth / tempHeight
+                
+            }
+            else { // 宽度大于高度
+                
+                videoH = tempHeight
+                videoW = tempWidth
+            }
+        }
+        
+       self.layout.videoImageViewHeight = videoH
+        self.layout.videoWidth = videoW
+        self.layout.videoHeight = videoH
+        
     }
     
     //MARK: - 计算正文

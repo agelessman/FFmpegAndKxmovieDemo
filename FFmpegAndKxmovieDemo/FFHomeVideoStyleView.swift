@@ -14,9 +14,18 @@ class FFHomeVideoStyleView: UIView {
     var MyLayout: VideoLayout!
     var cell: FFHomeCell!
 
+    var shouldPaly: Bool = false
+    
     var contentView: UIView!
     var profileView: FFHomeProfileView!
     var textLabel :YYLabel!               // 文本
+    
+    var videoImageView: FFControl!
+    
+    var playCountLabel: YYLabel!  // 播放次数
+    var playDurationLabel: YYLabel!  // 播放时长
+    var playImageView: UIImageView!
+    var indicatorView: UIActivityIndicatorView!
     
     override init(frame: CGRect) {
         
@@ -28,6 +37,10 @@ class FFHomeVideoStyleView: UIView {
         self.setupContentView()
         self.setupProfileView()
         self.setupTextLabel()
+        self.setupVideoImageView()
+        self.setupPlayCountAndDurationLabel()
+        self.setupPlayImageView()
+        self.setupIndicatorView()
         
     }
     
@@ -87,7 +100,43 @@ class FFHomeVideoStyleView: UIView {
         self.textLabel.height     = layout.textHeight
         self.textLabel.textLayout = layout.textLayout!
         
-        top += layout.textHeight
+        top += layout.textHeight + kFFCellTopMargin
+        
+        self.videoImageView.top = top
+        self.videoImageView.height = layout.videoImageViewHeight
+        
+        var videoUrl = ""
+        if  layout.videoItem.video?.thumbnail?.count > 0 {
+            
+            videoUrl = layout.videoItem.video!.thumbnail!.first!
+        }
+        
+        self.videoImageView.layer.yy_setImageWithURL(NSURL(string: videoUrl), placeholder: nil, options: YYWebImageOptions.SetImageWithFadeAnimation, progress: nil, transform: { (image, url) -> UIImage? in
+            return image
+            }, completion: nil)
+        
+        self.playCountLabel.bottom = self.videoImageView.height
+        if let playCountTextLayout = layout.playCountTextLayout {
+            
+            self.playCountLabel.width = playCountTextLayout.textBoundingSize.width
+            self.playCountLabel.textLayout = playCountTextLayout
+        }
+        
+        self.playDurationLabel.bottom = self.videoImageView.height
+        
+        if let durationTextLayout = layout.playDurationTextLayout {
+            
+            self.playDurationLabel.width = durationTextLayout.textBoundingSize.width
+            self.playDurationLabel.textLayout = durationTextLayout
+            self.playDurationLabel.right = self.videoImageView.width
+        }
+        
+        self.playImageView.centerX = self.videoImageView.width / 2
+        self.playImageView.centerY = self.videoImageView.height / 2
+        
+        
+        self.indicatorView.centerX = self.playImageView.centerX
+        self.indicatorView.centerY = self.playImageView.centerY
     }
     
     
@@ -121,6 +170,82 @@ class FFHomeVideoStyleView: UIView {
         self.contentView!.addSubview(textLabel)
     }
     
+    func setupVideoImageView() {
+        
+        self.videoImageView             = FFControl()
+        self.videoImageView.left = kFFCellPadding
+        self.videoImageView.width = kFFCellContentWidth
+        self.videoImageView.hidden          = false
+        self.videoImageView.clipsToBounds   = true
+        self.videoImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        self.videoImageView.backgroundColor = kFFCellHighlightColor
+        self.videoImageView.exclusiveTouch  = true
+        self.videoImageView.touchBlock = { (view :FFControl,  state :UIGestureRecognizerState, touches :NSSet , even :UIEvent) -> Void in
+ 
+            if state == UIGestureRecognizerState.Ended {
+                
+                // 加载数据，成功后跳转
+                if self.shouldPaly {
+                    
+                    return
+                }
+                self.shouldPaly = true
+                
+                self.playImageView.hidden = true
+                self.indicatorView.startAnimating()
+                if let delegate = self.cell.delegate {
+                    
+                    delegate.cellDidClickPlay(self.cell)
+                }
+            }
+          
+        }
+        self.contentView!.addSubview(self.videoImageView)
+    }
+    
+    func setupPlayCountAndDurationLabel() {
+        
+        playCountLabel                             = YYLabel()
+        playCountLabel.backgroundColor = UIColor(white: 0.1, alpha: 0.8)
+        playCountLabel.left                        = 0
+        playCountLabel.height = kFFPlayCountLabelHeight
+        playCountLabel.textVerticalAlignment       = YYTextVerticalAlignment.Center
+        playCountLabel.displaysAsynchronously      = true
+        playCountLabel.ignoreCommonProperties      = true
+        playCountLabel.fadeOnAsynchronouslyDisplay = false
+        playCountLabel.fadeOnHighlight             = false
+        self.videoImageView!.addSubview(playCountLabel)
+        
+        playDurationLabel                             = YYLabel()
+        playDurationLabel.backgroundColor = UIColor(white: 0.1, alpha: 0.8)
+        playDurationLabel.height = kFFPlayCountLabelHeight
+        playDurationLabel.textVerticalAlignment       = YYTextVerticalAlignment.Center
+        playDurationLabel.displaysAsynchronously      = true
+        playDurationLabel.ignoreCommonProperties      = true
+        playDurationLabel.fadeOnAsynchronouslyDisplay = false
+        playDurationLabel.fadeOnHighlight             = false
+        self.videoImageView!.addSubview(playDurationLabel)
+        
+    }
+    
+    func setupPlayImageView() {
+        
+        playImageView = UIImageView()
+        playImageView.image = FFHelper.imageNamed("video-play")
+        playImageView.width = 71
+        playImageView.height = playImageView.width
+        self.videoImageView.addSubview(playImageView)
+    }
+    
+    func setupIndicatorView() {
+        
+        self.indicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        self.indicatorView.width = 40
+        self.indicatorView.height = self.indicatorView.width
+        self.videoImageView.addSubview(self.indicatorView)
+        self.indicatorView.hidesWhenStopped = true
+    }
+    
     func configureAvatarBadgeView() {
         
         if let user = self.MyLayout.videoItem.u {
@@ -139,4 +264,11 @@ class FFHomeVideoStyleView: UIView {
         }
     }
     
+    func clear() {
+        
+        self.shouldPaly = false
+        self.hidden = false
+        self.playImageView.hidden = false
+        self.indicatorView.stopAnimating()
+    }
 }

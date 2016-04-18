@@ -74,6 +74,12 @@
 		9BF6D6611CBCEABC0074E0BD /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6D65C1CBCEABC0074E0BD /* LoggerClient.m */; };
 		9BF6D6621CBCEABC0074E0BD /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6D65F1CBCEABC0074E0BD /* LICENSE.txt */; };
 		9BF6D6631CBCEABC0074E0BD /* README.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6D6601CBCEABC0074E0BD /* README.markdown */; };
+		9BF6DCE01CC4D39B00ED617D /* video-play 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6DCDA1CC4D39B00ED617D /* video-play 2.png */; };
+		9BF6DCE11CC4D39B00ED617D /* video-play.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6DCDB1CC4D39B00ED617D /* video-play.png */; };
+		9BF6DCE21CC4D39B00ED617D /* video-play@2x 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6DCDC1CC4D39B00ED617D /* video-play@2x 2.png */; };
+		9BF6DCE31CC4D39B00ED617D /* video-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6DCDD1CC4D39B00ED617D /* video-play@2x.png */; };
+		9BF6DCE41CC4D39B00ED617D /* video-play@3x 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6DCDE1CC4D39B00ED617D /* video-play@3x 2.png */; };
+		9BF6DCE51CC4D39B00ED617D /* video-play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6DCDF1CC4D39B00ED617D /* video-play@3x.png */; };
 		9BFF74241CBF649000A16B36 /* FFHomeVideoStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFF74231CBF649000A16B36 /* FFHomeVideoStyleView.swift */; };
 		9BFF74271CBF664E00A16B36 /* VideoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFF74261CBF664E00A16B36 /* VideoLayout.swift */; };
 		9BFF742B1CBF66F800A16B36 /* VideoLayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFF742A1CBF66F800A16B36 /* VideoLayoutHelper.swift */; };
@@ -432,6 +438,12 @@
 		9BF6D65E1CBCEABC0074E0BD /* NSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLogger.h; sourceTree = "<group>"; };
 		9BF6D65F1CBCEABC0074E0BD /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		9BF6D6601CBCEABC0074E0BD /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
+		9BF6DCDA1CC4D39B00ED617D /* video-play 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play 2.png"; sourceTree = "<group>"; };
+		9BF6DCDB1CC4D39B00ED617D /* video-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play.png"; sourceTree = "<group>"; };
+		9BF6DCDC1CC4D39B00ED617D /* video-play@2x 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play@2x 2.png"; sourceTree = "<group>"; };
+		9BF6DCDD1CC4D39B00ED617D /* video-play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play@2x.png"; sourceTree = "<group>"; };
+		9BF6DCDE1CC4D39B00ED617D /* video-play@3x 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play@3x 2.png"; sourceTree = "<group>"; };
+		9BF6DCDF1CC4D39B00ED617D /* video-play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play@3x.png"; sourceTree = "<group>"; };
 		9BFF74231CBF649000A16B36 /* FFHomeVideoStyleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFHomeVideoStyleView.swift; sourceTree = "<group>"; };
 		9BFF74261CBF664E00A16B36 /* VideoLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLayout.swift; sourceTree = "<group>"; };
 		9BFF742A1CBF66F800A16B36 /* VideoLayoutHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLayoutHelper.swift; sourceTree = "<group>"; };
@@ -1198,6 +1210,12 @@
 		9BFF74921CBF815F00A16B36 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9BF6DCDA1CC4D39B00ED617D /* video-play 2.png */,
+				9BF6DCDB1CC4D39B00ED617D /* video-play.png */,
+				9BF6DCDC1CC4D39B00ED617D /* video-play@2x 2.png */,
+				9BF6DCDD1CC4D39B00ED617D /* video-play@2x.png */,
+				9BF6DCDE1CC4D39B00ED617D /* video-play@3x 2.png */,
+				9BF6DCDF1CC4D39B00ED617D /* video-play@3x.png */,
 				9BFF75491CBFA3A600A16B36 /* Profile_AddV_authen_N.png */,
 				9BFF754A1CBFA3A600A16B36 /* Profile_AddV_authen_N@2x.png */,
 				9BFF754B1CBFA3A600A16B36 /* Profile_AddV_authen_N@3x.png */,
@@ -1500,6 +1518,10 @@
 				9BFF74AB1CBF826200A16B36 /* cellmorebtnnormal@2x.png in Resources */,
 				9BFF74B61CBF826200A16B36 /* Profile_reportIconN.png in Resources */,
 				9BFF74AC1CBF826200A16B36 /* cellmorebtnnormalN.png in Resources */,
+				9BF6DCE31CC4D39B00ED617D /* video-play@2x.png in Resources */,
+				9BF6DCE21CC4D39B00ED617D /* video-play@2x 2.png in Resources */,
+				9BF6DCE11CC4D39B00ED617D /* video-play.png in Resources */,
+				9BF6DCE41CC4D39B00ED617D /* video-play@3x 2.png in Resources */,
 				9BFF74A71CBF826200A16B36 /* cellmorebtnclick@2x.png in Resources */,
 				9BFF74A91CBF826200A16B36 /* cellmorebtnclickN@2x.png in Resources */,
 				9BF6D6551CBCEAA20074E0BD /* kxmovie.bundle in Resources */,
@@ -1509,6 +1531,7 @@
 				9BFF74B51CBF826200A16B36 /* Profile_reportIconClick@3x.png in Resources */,
 				9BFF74A61CBF826200A16B36 /* cellmorebtnclick.png in Resources */,
 				9BF6D5C31CBCE9610074E0BD /* Assets.xcassets in Resources */,
+				9BF6DCE01CC4D39B00ED617D /* video-play 2.png in Resources */,
 				9BFF74B41CBF826200A16B36 /* Profile_reportIconClick@2x.png in Resources */,
 				9BFF74B81CBF826200A16B36 /* Profile_reportIconN@3x.png in Resources */,
 				9BFF74B01CBF826200A16B36 /* Profile_reportIcon.png in Resources */,
@@ -1518,6 +1541,7 @@
 				9BFF74B21CBF826200A16B36 /* Profile_reportIcon@3x.png in Resources */,
 				9BFF754F1CBFA3A600A16B36 /* Profile_AddV_authen_N.png in Resources */,
 				9BFF75541CBFA3A600A16B36 /* Profile_AddV_authen@3x.png in Resources */,
+				9BF6DCE51CC4D39B00ED617D /* video-play@3x.png in Resources */,
 				9BFF75521CBFA3A600A16B36 /* Profile_AddV_authen.png in Resources */,
 				9BFF74AF1CBF826200A16B36 /* Profile_avatarBg@2x.png in Resources */,
 				9BF6D6621CBCEABC0074E0BD /* LICENSE.txt in Resources */,

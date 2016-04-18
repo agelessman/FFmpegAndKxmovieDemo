@@ -11,10 +11,10 @@
 class FFVideo: NSObject,Mappable {
 
     var playfcount: Int64?
-    var height: Int64?
-    var width: Int64?
-    var duration: Int64?
-    var playcount: Int64?
+    var height: CGFloat?
+    var width: CGFloat?
+    var duration: Int?
+    var playcount: Int?
     
     var video: Array<String>?
     var thumbnail: Array<String>?

@@ -6,11 +6,19 @@
 //  Copyright © 2016年 qq 714080794. All rights reserved.
 //
 
-
+protocol FFHomeCellDelegate {
+    
+    /// 点击了播放
+    func cellDidClickPlay(cell :FFHomeCell)
+}
 
 class FFHomeCell: BasicTableViewCell {
 
     var viewModel: VideoLayout?
+    
+    var indexPath: NSIndexPath!
+    
+    var delegate: FFHomeCellDelegate?
     
     var videoContentView: FFHomeVideoStyleView!   ///  视频播放的总容器
     
@@ -39,6 +47,12 @@ class FFHomeCell: BasicTableViewCell {
         self.contentView.height = layout.height
         
         self.videoContentView.bindLayout(layout)
+    }
+    
+    func clear() {
+        
+        self.videoContentView.clear()
+        
     }
 }
 
