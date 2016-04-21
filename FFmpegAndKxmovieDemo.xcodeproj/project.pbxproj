@@ -55,6 +55,7 @@
 		9BEC3ACF1CBCF702005B1575 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEC3ACE1CBCF702005B1575 /* Video.swift */; };
 		9BF1037B1CBD244B00E88F22 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF1036E1CBD243600E88F22 /* Alamofire.framework */; };
 		9BF1037C1CBD244B00E88F22 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF1036E1CBD243600E88F22 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9BF6CDB41CC6348700ED5DFE /* FFVideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6CDB31CC6348700ED5DFE /* FFVideoPlayView.swift */; };
 		9BF6D5BC1CBCE9610074E0BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6D5BB1CBCE9610074E0BD /* AppDelegate.swift */; };
 		9BF6D5BE1CBCE9610074E0BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6D5BD1CBCE9610074E0BD /* ViewController.swift */; };
 		9BF6D5C11CBCE9610074E0BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6D5BF1CBCE9610074E0BD /* Main.storyboard */; };
@@ -311,6 +312,7 @@
 		9BEC3AC81CBCF3D2005B1575 /* KxMovieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMovieViewController.m; sourceTree = "<group>"; };
 		9BEC3ACE1CBCF702005B1575 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		9BF103631CBD243600E88F22 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
+		9BF6CDB31CC6348700ED5DFE /* FFVideoPlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFVideoPlayView.swift; sourceTree = "<group>"; };
 		9BF6D5B81CBCE9610074E0BD /* FFmpegAndKxmovieDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FFmpegAndKxmovieDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BF6D5BB1CBCE9610074E0BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BF6D5BD1CBCE9610074E0BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 				9B5EAF2F1CBE4BE500A9386A /* FFHomeCell.swift */,
 				9BFF74231CBF649000A16B36 /* FFHomeVideoStyleView.swift */,
 				9BFF74B91CBF927100A16B36 /* FFHomeProfileView.swift */,
+				9BF6CDB31CC6348700ED5DFE /* FFVideoPlayView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1667,6 +1670,7 @@
 				9BFF74E81CBF98F700A16B36 /* _YYWebImageSetter.m in Sources */,
 				9BF6D6571CBCEAA20074E0BD /* KxMovieGLView.m in Sources */,
 				9BF6D5BC1CBCE9610074E0BD /* AppDelegate.swift in Sources */,
+				9BF6CDB41CC6348700ED5DFE /* FFVideoPlayView.swift in Sources */,
 				9BFF75451CBF9EEF00A16B36 /* YYLabel.m in Sources */,
 				9BFF74271CBF664E00A16B36 /* VideoLayout.swift in Sources */,
 				9BFF74E71CBF98F700A16B36 /* YYMemoryCache.m in Sources */,
@@ -1809,6 +1813,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FFmpegAndKxmovieDemo/FFmovie/lib",
 				);
+				OTHER_SWIFT_FLAGS = "-Debug";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ma.com.FFmpegAndKxmovieDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FFmpegAndKxmovieDemo/FFmpegAndKxmovieDemo-Bridging-Header.h";
@@ -1835,6 +1840,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FFmpegAndKxmovieDemo/FFmovie/lib",
 				);
+				OTHER_SWIFT_FLAGS = "-Debug";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ma.com.FFmpegAndKxmovieDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FFmpegAndKxmovieDemo/FFmpegAndKxmovieDemo-Bridging-Header.h";

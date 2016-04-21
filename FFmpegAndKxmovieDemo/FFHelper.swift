@@ -21,10 +21,8 @@ class FFHelper: NSObject {
             return nil
         }
         
-        var image :UIImage? =  imageCache().objectForKey(name!) as? UIImage
-        if let _ = image {
-            return image
-        }
+        var image :UIImage?
+
         
         var ext  = name?.pathExtension
         if ext?.characters.count == 0
@@ -51,10 +49,7 @@ class FFHelper: NSObject {
         {
             return nil
         }
-        var image :UIImage? =  imageCache().objectForKey(path!) as? UIImage
-        if let _ = image {
-            return image
-        }
+        var image :UIImage?
         if path?.pathScale() == 1
         {
             // 查找 @2x @3x 的图片
@@ -73,7 +68,7 @@ class FFHelper: NSObject {
         }
         if let _ = image{
             image = image?.yy_imageByDecoded()
-            imageCache().setObject(image, forKey: path!)
+//            imageCache().setObject(image, forKey: path!)
         }
         return image
     }

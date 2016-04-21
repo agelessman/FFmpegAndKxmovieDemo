@@ -8,6 +8,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "KxMovieViewController.h"
+#import "KxMovieDecoder.h"
+#import "KxAudioManager.h"
+#import "KxMovieGLView.h"
 #include <libavcodec/avcodec.h>  
 #import "YYCategories.h"
 #import "YYWebImage.h"

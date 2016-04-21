@@ -15,7 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        
+        //清空缓存
+        let caches = YYWebImageManager.sharedManager().cache
+        caches?.memoryCache.removeAllObjects()
+        caches?.diskCache.removeAllObjects()
+        
+        
         return true
     }
 

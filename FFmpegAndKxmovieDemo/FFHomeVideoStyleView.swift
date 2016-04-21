@@ -27,6 +27,8 @@ class FFHomeVideoStyleView: UIView {
     var playImageView: UIImageView!
     var indicatorView: UIActivityIndicatorView!
     
+    var videoPlayView: FFVideoPlayView!
+    
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -41,6 +43,7 @@ class FFHomeVideoStyleView: UIView {
         self.setupPlayCountAndDurationLabel()
         self.setupPlayImageView()
         self.setupIndicatorView()
+        self.setupVideoPlayView()
         
     }
     
@@ -81,7 +84,6 @@ class FFHomeVideoStyleView: UIView {
         
               let  tempImage = image.yy_imageByResizeToSize(CGSizeMake(40, 40), contentMode: UIViewContentMode.Center)
               return tempImage?.yy_imageByRoundCornerRadius(4)
-        
         }, completion: nil)
         
         
@@ -137,6 +139,8 @@ class FFHomeVideoStyleView: UIView {
         
         self.indicatorView.centerX = self.playImageView.centerX
         self.indicatorView.centerY = self.playImageView.centerY
+        
+        self.videoPlayView.frame = self.videoImageView.frame
     }
     
     
@@ -193,10 +197,49 @@ class FFHomeVideoStyleView: UIView {
                 
                 self.playImageView.hidden = true
                 self.indicatorView.startAnimating()
-                if let delegate = self.cell.delegate {
+                
+                var paramers: Dictionary<String,AnyObject> = Dictionary()
+                
+                if let url = self.MyLayout.videoItem.video?.video?.first {
                     
-                    delegate.cellDidClickPlay(self.cell)
+                    let pathUrl = NSURL(string: url)
+                    
+                    if pathUrl!.pathExtension == "wmv" {
+                        
+                        paramers[KxMovieParameterMinBufferedDuration] = (5.0)
+                    }
+                    
+                    if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Phone {
+                        
+                        paramers[KxMovieParameterDisableDeinterlacing] = (true)
+                    }
                 }
+                
+           
+                
+                self.videoPlayView.loadVideoWithPath(self.MyLayout.videoItem.video?.video?.first, parameters: paramers, completionHandler: { (isSuccess) -> Void in
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        
+                        if isSuccess {
+                            
+                            self.clear()
+                            self.videoImageView.hidden = true
+                            self.videoPlayView.hidden = false
+                        }
+                        else {
+                            
+                            self.clear()
+                        }
+                    })
+                  
+                })
+                
+            
+//                if let delegate = self.cell.delegate {
+//                    
+//                    delegate.cellDidClickPlay(self.cell)
+//                }
             }
           
         }
@@ -246,6 +289,14 @@ class FFHomeVideoStyleView: UIView {
         self.indicatorView.hidesWhenStopped = true
     }
     
+    func setupVideoPlayView() {
+        
+        self.videoPlayView = FFVideoPlayView(frame: CGRectZero)
+        self.contentView.addSubview(self.videoPlayView)
+        self.videoPlayView.hidden = true
+    }
+    
+    
     func configureAvatarBadgeView() {
         
         if let user = self.MyLayout.videoItem.u {
@@ -270,5 +321,8 @@ class FFHomeVideoStyleView: UIView {
         self.hidden = false
         self.playImageView.hidden = false
         self.indicatorView.stopAnimating()
+        self.videoImageView.hidden = false
+        self.videoPlayView.hidden = true
+        
     }
 }

@@ -135,6 +135,7 @@ static OSStatus renderCallback (void *inRefCon, AudioUnitRenderActionFlags	*ioAc
     // Check what the audio route is.
     UInt32 propertySize = sizeof(CFStringRef);
     CFStringRef route;
+
     if (checkError(AudioSessionGetProperty(kAudioSessionProperty_AudioRoute,
                                            &propertySize,
                                            &route),
@@ -364,8 +365,10 @@ static OSStatus renderCallback (void *inRefCon, AudioUnitRenderActionFlags	*ioAc
 
 - (BOOL) activateAudioSession
 {
+    // 查看是不是已经激活
     if (!_activated) {
         
+        // 判断是不是已经初始化
         if (!_initialized) {
             
             if (checkError(AudioSessionInitialize(NULL,

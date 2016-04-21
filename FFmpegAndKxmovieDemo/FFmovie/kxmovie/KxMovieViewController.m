@@ -541,6 +541,7 @@ _messageLabel.hidden = YES;
     [self updatePlayButton];
 
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC);
+     LoggerAudio(0,@"-----%llu",popTime);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self tick];
     });
@@ -883,7 +884,7 @@ _messageLabel.hidden = YES;
             }
             
             if (_currentAudioFrame) {
-                
+               
                 const void *bytes = (Byte *)_currentAudioFrame.bytes + _currentAudioFramePos;
                 const NSUInteger bytesLeft = (_currentAudioFrame.length - _currentAudioFramePos);
                 const NSUInteger frameSizeOf = numChannels * sizeof(float);
@@ -891,6 +892,7 @@ _messageLabel.hidden = YES;
                 const NSUInteger framesToCopy = bytesToCopy / frameSizeOf;
                 
                 memcpy(outData, bytes, bytesToCopy);
+                 NSLog(@"-=-=-=%p-%lu",bytes,(unsigned long)framesToCopy);
                 numFrames -= framesToCopy;
                 outData += framesToCopy * numChannels;
                 
@@ -1095,7 +1097,10 @@ _messageLabel.hidden = YES;
         
         const NSTimeInterval correction = [self tickCorrection];
         const NSTimeInterval time = MAX(interval + correction, 0.01);
+        
+       
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, time * NSEC_PER_SEC);
+//         LoggerAudio(0,@"-----%llu",interval);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [self tick];
         });
@@ -1176,7 +1181,7 @@ _messageLabel.hidden = YES;
     if (self.playing && _debugStartTime < 0)
         _debugStartTime = [NSDate timeIntervalSinceReferenceDate] - _moviePosition;
 #endif
-
+    NSLog(@"--------interval----------%f",interval);
     return interval;
 }
 
