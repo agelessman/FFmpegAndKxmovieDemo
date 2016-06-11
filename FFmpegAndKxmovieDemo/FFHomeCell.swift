@@ -54,6 +54,11 @@ class FFHomeCell: BasicTableViewCell {
         self.videoContentView.clear()
         
     }
+    
+    func reset() {
+        
+        self.videoContentView.reset()
+    }
 }
 
 

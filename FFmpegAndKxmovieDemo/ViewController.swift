@@ -114,10 +114,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
     }
     
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        
+    }
 
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
         
     }
     
@@ -159,6 +164,24 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let playVc = KxMovieViewController.movieViewControllerWithContentPath(path, parameters: paramers) as! UIViewController
             
             self.presentViewController(playVc, animated: true, completion: nil)
+        }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if scrollView == self.tableView {
+            
+            let visibleCell = self.tableView.visibleCells
+            
+            if let _playCell = playerController.playCell {
+                
+                if !visibleCell.contains(_playCell) {
+                    
+                   _playCell.reset()
+                }
+            }
+            
+            
         }
     }
     

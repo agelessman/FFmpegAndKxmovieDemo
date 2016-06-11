@@ -6,7 +6,10 @@
 //  Copyright © 2016年 qq 714080794. All rights reserved.
 //
 
+import AVFoundation
 
+var currentPlayCell:FFHomeVideoStyleView?
+let playerController: FFPlayerManager = FFPlayerManager()
 
 class FFHomeVideoStyleView: UIView {
 
@@ -27,7 +30,11 @@ class FFHomeVideoStyleView: UIView {
     var playImageView: UIImageView!
     var indicatorView: UIActivityIndicatorView!
     
-    var videoPlayView: FFVideoPlayView!
+    
+    
+//    var videoPlayView: FFVideoPlayView!
+    var videoPlayView: FFPlayerView!
+
     
     override init(frame: CGRect) {
         
@@ -44,6 +51,7 @@ class FFHomeVideoStyleView: UIView {
         self.setupPlayImageView()
         self.setupIndicatorView()
         self.setupVideoPlayView()
+        
         
     }
     
@@ -140,7 +148,7 @@ class FFHomeVideoStyleView: UIView {
         self.indicatorView.centerX = self.playImageView.centerX
         self.indicatorView.centerY = self.playImageView.centerY
         
-        self.videoPlayView.frame = self.videoImageView.frame
+        
     }
     
     
@@ -198,11 +206,37 @@ class FFHomeVideoStyleView: UIView {
                 self.playImageView.hidden = true
                 self.indicatorView.startAnimating()
                 
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FFHomeVideoStyleView.playBegan), name: "playBegan", object: nil)
+                
+
                 var paramers: Dictionary<String,AnyObject> = Dictionary()
                 
                 if let url = self.MyLayout.videoItem.video?.video?.first {
                     
                     let pathUrl = NSURL(string: url)
+                    
+
+                    playerController.deaTimeEndObserver()
+                    if playerController.playerItem != nil {
+                       playerController.playerItem.cancelPendingSeeks()
+                    }
+                    if playerController.player != nil {
+                        playerController.stop()
+                    }
+                    if playerController.playerView != nil {
+                        playerController.view.removeFromSuperview()
+                    }
+                    
+                    
+                    playerController.configure(pathUrl!)
+                    playerController.view.frame = self.videoImageView.frame
+                    self.contentView.addSubview(playerController.view)
+                    playerController.view.hidden = true
+                    
+                    currentPlayCell = self
+                    playerController.playCell = self.cell
+                    
+                    
                     
                     if pathUrl!.pathExtension == "wmv" {
                         
@@ -214,26 +248,26 @@ class FFHomeVideoStyleView: UIView {
                         paramers[KxMovieParameterDisableDeinterlacing] = (true)
                     }
                 }
-                
+//
            
-                
-                self.videoPlayView.loadVideoWithPath(self.MyLayout.videoItem.video?.video?.first, parameters: paramers, completionHandler: { (isSuccess) -> Void in
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        
-                        if isSuccess {
-                            
-                            self.clear()
-                            self.videoImageView.hidden = true
-                            self.videoPlayView.hidden = false
-                        }
-                        else {
-                            
-                            self.clear()
-                        }
-                    })
-                  
-                })
+//                
+//                self.videoPlayView.loadVideoWithPath(self.MyLayout.videoItem.video?.video?.first, parameters: paramers, completionHandler: { (isSuccess) -> Void in
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        
+//                        if isSuccess {
+//                            
+//                            self.clear()
+//                            self.videoImageView.hidden = true
+//                            self.videoPlayView.hidden = false
+//                        }
+//                        else {
+//                            
+//                            self.clear()
+//                        }
+//                    })
+//                  
+//                })
                 
             
 //                if let delegate = self.cell.delegate {
@@ -291,9 +325,11 @@ class FFHomeVideoStyleView: UIView {
     
     func setupVideoPlayView() {
         
-        self.videoPlayView = FFVideoPlayView(frame: CGRectZero)
-        self.contentView.addSubview(self.videoPlayView)
-        self.videoPlayView.hidden = true
+//        self.videoPlayView = FFVideoPlayView(frame: CGRectZero)
+        // 切换成苹果自带的播放器
+//        self.videoPlayView = FFPlayerView(player:AVPlayer());
+//        self.contentView.addSubview(self.videoPlayView)
+//        self.videoPlayView.hidden = true
     }
     
     
@@ -315,6 +351,15 @@ class FFHomeVideoStyleView: UIView {
         }
     }
     
+    func playBegan() {
+        
+        self.clear()
+        self.videoImageView.hidden = true
+        playerController.view.hidden = false
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     func clear() {
         
         self.shouldPaly = false
@@ -322,7 +367,20 @@ class FFHomeVideoStyleView: UIView {
         self.playImageView.hidden = false
         self.indicatorView.stopAnimating()
         self.videoImageView.hidden = false
-        self.videoPlayView.hidden = true
+
+    }
+    
+    
+    func reset() {
+        // reset cell
+        self.cell.clear()
+        playerController.playerItem.cancelPendingSeeks()
+        playerController.stop()
+        playerController.view.removeFromSuperview()
+    }
+    
+    deinit {
         
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
