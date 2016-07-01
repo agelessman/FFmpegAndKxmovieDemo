@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 
 var PlayerItemStatusContext: String?
+var PlayerItemLoadedTimeRangesContext: String?
 
 let REFRESH_INTERVAL: CGFloat = 1 / 60
 
@@ -35,6 +36,8 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
     
     var lastPlaybackRate: Float = 0
 
+    var loadedObserverCount: Int = 0
+
     override init() {
         
         super.init()
@@ -46,9 +49,97 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
         self.asset = nil
         self.playerItem = nil
         self.player = nil
+
+//        configurePlayLoadProgress(URL)
+//        let url = NSURL(string: "http://127.0.0.1:12345/vedio.mp4")
         self.asset = AVAsset(URL: URL)
+
         prepareToPlay()
     }
+    
+//    func configurePlayLoadProgress(url: NSURL!) {
+//        
+//        
+//        // 创建一个用来为HTTPServer读取文件的路径
+//        let webPath = NSHomeDirectory().stringByAppendingString("/Library/Private Documents/Temp")
+//        let fileManager = NSFileManager.defaultManager()
+//        
+//        if !fileManager.fileExistsAtPath(webPath) {
+//            do {
+//              try fileManager.createDirectoryAtPath(webPath, withIntermediateDirectories: true, attributes: nil)
+//            }
+//            catch {
+//                
+//            }
+//            
+//        }
+// 
+//        let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        appdelegate.httpServer.setDocumentRoot(webPath)
+//        appdelegate.httpServer.setConnectionClass(PlayHTTPConnection.self)
+// 
+//        do {
+//            
+//            try appdelegate.httpServer.start()
+//            
+//        }catch let error {
+//            
+//            print(error)
+//        }
+//        
+//        let cachePath = NSHomeDirectory().stringByAppendingString("/Library/Private Documents/Cache")
+//        if !fileManager.fileExistsAtPath(cachePath) {
+//            do {
+//                try fileManager.createDirectoryAtPath(cachePath, withIntermediateDirectories: true, attributes: nil)
+//            }
+//            catch {
+//                
+//            }
+//            
+//        }
+//        
+//        // 百思不得姐的url要处理一下子
+//        // http://bvideo.spriteapp.cn/video/2015/0909/55efe56a584fb_wpd.mp4 
+//        // 改成 http://svideo.spriteapp.com/video/2015/0909/55efe56a584fb_wpd.mp4
+//        
+//        var newURL = url
+//        let urlHost = newURL.host
+//        var urlStr = newURL.absoluteString
+//        if let _ = urlHost {
+//            
+//            let range = urlStr.rangeOfString(urlHost!)
+//            urlStr.replaceRange(range!, with: "svideo.spriteapp.com")
+//            
+//        }
+//        
+//        newURL = NSURL(string: urlStr)
+//        
+//        var complete: UInt64 = 0
+//        
+//        let request = ASIHTTPRequest(URL: newURL)
+//        request.downloadDestinationPath = cachePath + "/video.mp4"
+//        request.temporaryFileDownloadPath = webPath + "/video.mp4"
+//        
+//        request.setBytesSentBlock { (size, total) in
+//            
+//            file_length = total;
+//            
+//            complete += size
+//            
+//            let progress = 1.0 * Float(complete) / Float(total)
+//            print(progress)
+//            if !self.isplaying && complete > 400000 {
+//                
+//                self.isplaying = !self.isplaying
+//                
+//                self.prepareToPlay()
+//            }
+//        }
+//        
+//        request.allowResumeForFileDownloads = true
+//        request.startAsynchronous()
+//        
+//    }
     
     func prepareToPlay() {
         
@@ -56,6 +147,7 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
         self.playerItem = AVPlayerItem(asset: self.asset, automaticallyLoadedAssetKeys: keys)
         
         self.playerItem.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.init(rawValue: 0), context: &PlayerItemStatusContext)
+      
         self.player = AVPlayer(playerItem: self.playerItem)
         
         self.playerView = FFPlayerView(player: self.player)
@@ -90,9 +182,38 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
                     
                     // play
                     self.player.play()
+
                     
+                    self.playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: NSKeyValueObservingOptions.init(rawValue: 0), context: &PlayerItemLoadedTimeRangesContext)
                 
+                    self.loadedObserverCount += 1;
                 }
+            })
+        }else if context == &PlayerItemLoadedTimeRangesContext {
+            
+            dispatch_async(dispatch_get_main_queue(), {
+
+                // buffering
+                let playerItem = object as? AVPlayerItem
+                guard playerItem != nil else {
+                    return
+                }
+                
+                let loadedRanges = playerItem?.loadedTimeRanges
+                let timeRange = loadedRanges?.first?.CMTimeRangeValue
+                if let _timeRange = timeRange {
+                    
+                    let startSeconds = CMTimeGetSeconds(_timeRange.start)
+                    let durationSeconds = CMTimeGetSeconds(_timeRange.duration)
+                    
+                    let timeInterval = startSeconds + durationSeconds
+                    
+                    let totalDuration = CMTimeGetSeconds(playerItem!.duration)
+                    
+                    (self.transport as! FFOverlayView).sliderView.bufferingValue = CGFloat(timeInterval / totalDuration)
+                }
+                
+                
             })
         }
     }
@@ -111,12 +232,18 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
         self.timeObserver = self.player.addPeriodicTimeObserverForInterval(interval, queue: queue, usingBlock: { (time) in
             
             let currentTime = CMTimeGetSeconds(time)
-            let duration = CMTimeGetSeconds(self.playerItem.duration)
             
-            if let trans = self.transport {
+            if self.playerItem != nil {
                 
-                trans.setCurrentTime(currentTime, duration: duration)
+                let duration = CMTimeGetSeconds(self.playerItem.duration)
+                
+                if let trans = self.transport {
+                    
+                    trans.setCurrentTime(currentTime, duration: duration)
+                }
             }
+            
+            
         })
     }
     
@@ -140,18 +267,28 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
     func play() {
        
         self.player.play()
+        
     }
     
     func pause() {
        
         self.lastPlaybackRate = self.player.rate
         self.player.pause()
+
     }
     
     func stop() {
         
-        self.player.rate = 0
-        (self.transport as! FFOverlayView).playbackComplete()
+        if self.player != nil {
+            
+            self.player.rate = 0
+        }
+        if self.transport != nil {
+            
+            (self.transport as! FFOverlayView).playbackComplete()
+        }
+        
+
     }
     
     func scrubbingDidStart() {
@@ -195,9 +332,41 @@ class FFPlayerManager: NSObject,FFTransportDelegate {
         }
     }
     
+  
+    
+    func clear() {
+        
+        stop()
+        
+        deaTimeEndObserver()
+        
+        // remove boserver
+        if self.playerItem != nil {
+            
+            self.playerItem.cancelPendingSeeks()
+            
+            self.loadedObserverCount -= 1;
+            print(self.loadedObserverCount)
+            if self.loadedObserverCount >= 0 {
+                self.playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges")
+            }
+            
+        }
+        
+        if self.playerView != nil {
+            
+            self.playerView.removeFromSuperview()
+        }
+        
+        self.playCell = nil
+        self.playerItem = nil
+        
+    }
+    
     deinit
     {
      
         deaTimeEndObserver()
+        
     }
 }

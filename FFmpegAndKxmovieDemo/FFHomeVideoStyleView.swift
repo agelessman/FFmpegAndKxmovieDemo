@@ -216,17 +216,10 @@ class FFHomeVideoStyleView: UIView {
                     let pathUrl = NSURL(string: url)
                     
 
-                    playerController.deaTimeEndObserver()
-                    if playerController.playerItem != nil {
-                       playerController.playerItem.cancelPendingSeeks()
+                    playerController.clear()
+                    if currentPlayCell != nil {
+                        currentPlayCell?.clear()
                     }
-                    if playerController.player != nil {
-                        playerController.stop()
-                    }
-                    if playerController.playerView != nil {
-                        playerController.view.removeFromSuperview()
-                    }
-                    
                     
                     playerController.configure(pathUrl!)
                     playerController.view.frame = self.videoImageView.frame
@@ -374,9 +367,7 @@ class FFHomeVideoStyleView: UIView {
     func reset() {
         // reset cell
         self.cell.clear()
-        playerController.playerItem.cancelPendingSeeks()
-        playerController.stop()
-        playerController.view.removeFromSuperview()
+        playerController.clear()
     }
     
     deinit {

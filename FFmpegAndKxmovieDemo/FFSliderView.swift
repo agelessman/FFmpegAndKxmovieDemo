@@ -15,6 +15,7 @@ import UIKit
 class FFSliderView: UIControl {
     
     var completeView: UIView!
+    var bufferingView: UIView!
     var bgView: CALayer!
     var panView: UIButton!
     var startPoint: CGPoint!
@@ -46,6 +47,22 @@ class FFSliderView: UIControl {
         }
     }// current value
 
+    
+    var tempBufferingValue: CGFloat = 0
+    var bufferingValue: CGFloat {
+        set {
+            
+            self.tempBufferingValue = newValue
+            
+            self.bufferingView.right = newValue * self.width
+        }
+        get {
+            return tempBufferingValue
+        }
+    }// current buffering value
+    
+    
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -55,6 +72,7 @@ class FFSliderView: UIControl {
         
         self.setupBgView()
         self .setupCompleteView()
+        setupBufferingView()
         self.setupPanView()
     }
 
@@ -73,6 +91,9 @@ class FFSliderView: UIControl {
         self.completeView.width = self.width
         self.completeView.height = self.bgView.height
         
+        bufferingView.frame = completeView.frame
+        
+    
         self.panView.left = -3
         self.panView.width = 20
         self.panView.height = self.panView.width
@@ -98,6 +119,14 @@ class FFSliderView: UIControl {
         self.completeView.backgroundColor = UIColor.redColor()
 
         self.addSubview(self.completeView)
+    }
+    
+    func setupBufferingView() {
+        
+        self.bufferingView = UIView()
+        self.bufferingView.backgroundColor = UIColor(red: 255.0 / 255.0, green: 0, blue: 0, alpha: 0.4)
+        
+        self.addSubview(self.bufferingView)
     }
     
     func setupPanView() {

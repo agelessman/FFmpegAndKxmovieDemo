@@ -36,7 +36,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         fps.size = CGSizeMake(60, 30)
         fps.bottom = self.view.bottom
         self.view.addSubview(fps)
-  
+        
+    
     }
 
     func fetchDatas() {
@@ -167,6 +168,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
     }
     
+    /**
+     当正在播放的cell移出屏幕的时候要清空播放器设置
+     
+     - parameter scrollView: <#scrollView description#>
+     */
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         if scrollView == self.tableView {
